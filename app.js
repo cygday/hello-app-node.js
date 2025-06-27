@@ -13,5 +13,3 @@ app.post('/hello', (req, res) => {
 	app.listen(port, () => {
 		console.log('app running at http://localhost:${port}');
 	});
-
-

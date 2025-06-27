@@ -7,6 +7,13 @@ pipeline {
                 git url: "https://github.com/cygday/hello-app-node.js.git", branch: "main" 
             }
         }
+        stage('sonarqube scan') {
+			steps {
+				withSonarQubeEnv('MySonarQube'){
+					sh 'sonar-scanner'
+				}
+			}
+		}
         stage('build') {
             steps {
                 sh 'docker build -t hello-app:v2 .'

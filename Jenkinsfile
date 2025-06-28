@@ -2,18 +2,17 @@ pipeline {
     agent any
     
     stages {
+        stage('web-hook') {
+            steps{
+             checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'github-token-webhook', url: 'https://github.com/cygday/hello-app-node.js.git']])
+            }   
+            
+        }
         stage('checkout') {
             steps {
                 git url: "https://github.com/cygday/hello-app-node.js.git", branch: "main" 
             }
         }
-        stage('sonarqube scan') {
-			steps {
-				withSonarQubeEnv('MySonarQube'){
-					sh 'sonar-scanner'
-				}
-			}
-		}
         stage('build') {
             steps {
                 sh 'docker build -t hello-app:v2 .'
